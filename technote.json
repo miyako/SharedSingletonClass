@@ -31,7 +31,8 @@
       "#535353",
       "#5f8e5e",
       "#a0806b"
-    ]
+    ],
+    "spaces_per_level": 2
   },
   "bullets": {
     "fonts": [
@@ -44,7 +45,7 @@
     "min_x": 9999
   },
   "table": {
-    "size": 10
+    "size": null
   },
   "$comment": "Document-specific settings. Run `make inspect` and review; see tools/config.py for all keys and defaults."
 }
