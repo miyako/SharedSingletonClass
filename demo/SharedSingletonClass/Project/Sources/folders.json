@@ -1,0 +1,27 @@
+{
+	"collection example": {
+		"methods": [
+			"_pick_fruits",
+			"add_fruit"
+		]
+	},
+	"object example": {
+		"methods": [
+			"_build_car",
+			"mod_car"
+		]
+	},
+	"scalars example": {
+		"methods": [
+			"_create_vals",
+			"update_vals"
+		]
+	},
+	"startup example": {
+		"methods": [
+			"__init_vars_from_env",
+			"__show_global_vars"
+		]
+	},
+	"trash": {}
+}

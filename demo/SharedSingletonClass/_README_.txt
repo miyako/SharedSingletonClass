@@ -1,0 +1,1 @@
+Run the Demo Application (SharedSingletonClass.4DProject) in 4D 20 R5 or newer.
