@@ -8,6 +8,7 @@ demo/*/Data/
 demo/*/Logs/
 demo/*/userPreferences.*/
 demo/*/Project/DerivedData/
+demo/*/Project/Sources/dependencies.json
 
 # Tools provisioned by the 4D skills (see the 4dtools skill)
 /tools/4dcatalog/

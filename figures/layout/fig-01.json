@@ -1,0 +1,17 @@
+{
+ "source": "fig-01.png",
+ "page": 3,
+ "width_pt": 216.6,
+ "localize": true,
+ "items": [
+  {
+   "box": [
+    90,
+    8,
+    170,
+    20
+   ],
+   "align": "center"
+  }
+ ]
+}

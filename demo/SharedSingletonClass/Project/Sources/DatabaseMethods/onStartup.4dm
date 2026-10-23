@@ -1,0 +1,2 @@
+__init_vars_from_env
+__show_global_vars

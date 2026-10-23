@@ -56,6 +56,11 @@ def line_items(page):
         x0, y0, x1, y1 = info["bbox"]
         items.append({"kind": "image", "y0": y0, "y1": y1, "xref": info["xref"],
                       "width_pt": x1 - x0})
+    # drop whitespace-only fragments that sit on the same baseline as real text
+    filled = [(it["y0"], it["y1"]) for it in items if it["kind"] == "line" and it["text"].strip()]
+    items = [it for it in items if it["kind"] != "line" or it["text"].strip()
+             or not any(min(it["y1"], y1) - max(it["y0"], y0) > 0.5 * (it["y1"] - it["y0"])
+                        for y0, y1 in filled)]
     items.sort(key=lambda it: (it["y0"], it.get("x", 0)))
     return items
 
@@ -72,6 +77,17 @@ def is_code_line(item, body_x):
     if any((s["color"] in CODE_COLORS or is_code_font(s)) and s["text"].strip() for s in item["spans"]):
         return True
     return item["x"] >= body_x + CFG["code"]["indent"]
+
+
+def is_all_code_font(item):
+    spans = [s for s in item["spans"] if s["text"].strip()]
+    return bool(spans) and all(is_code_font(s) for s in spans)
+
+
+def is_italic_prose(item):
+    spans = [s for s in item["spans"] if s["text"].strip()]
+    return bool(spans) and all(("Italic" in font_of(s) or "Oblique" in font_of(s)) and not is_code_font(s)
+                               for s in spans)
 
 
 def is_heading(fonts, size):
@@ -125,11 +141,11 @@ def code_lang(lines):
     return "4d"
 
 
-def code_line_text(item, min_x):
+def code_line_text(item, min_x, step):
     raw = "".join(s["text"] for s in item["spans"]).rstrip()
     stripped = raw.lstrip(" ")
     spaces = len(raw) - len(stripped)
-    level = spaces // 4 if spaces >= 4 else (1 if item["x"] > min_x + 10 else 0)
+    level = round((item["x"] - min_x) / step) + spaces // CFG["code"]["spaces_per_level"]
     return "    " * level + stripped
 
 
@@ -159,8 +175,11 @@ def extract_body(doc):
     def flush_code():
         items = state["code"]
         if items:
-            min_x = min(it["x"] for it in items if it["text"].strip())
-            lines = [code_line_text(it, min_x) if it["text"].strip() else "" for it in items]
+            xs = sorted({it["x"] for it in items if it["text"].strip()})
+            min_x = xs[0]
+            # indent step = smallest x offset between distinct indentation levels in this block
+            step = min((b - a for a, b in zip(xs, xs[1:]) if b - a > 4), default=18)
+            lines = [code_line_text(it, min_x, step) if it["text"].strip() else "" for it in items]
             while lines and not lines[-1]:
                 lines.pop()
             out.append(f"```{code_lang(lines)}\n" + "\n".join(lines) + "\n```\n")
@@ -192,7 +211,8 @@ def extract_body(doc):
             size = round(max(s["size"] for s in it["spans"]))
 
             if not text.strip():
-                if state["code"] and it["x"] >= body_x + CFG["code"]["indent"]:
+                if state["code"] and (it["x"] >= body_x + CFG["code"]["indent"]
+                                      or any(is_code_font(s) for s in it["spans"])):
                     state["code"].append(it)
                 else:
                     flush_code()
@@ -220,7 +240,8 @@ def extract_body(doc):
                 prev = None
                 continue
 
-            if CFG["table"]["size"] and size == CFG["table"]["size"]:  # table cells
+            if CFG["table"]["size"] and size == CFG["table"]["size"] and not any(
+                    is_code_font(s) for s in it["spans"] if s["text"].strip()):  # table cells
                 flush_para(); flush_bullets(); flush_code()
                 if state["table"] and abs(state["table"][-1][0] - it["y0"]) < 3:
                     state["table"][-1][1].append(it)
@@ -244,7 +265,8 @@ def extract_body(doc):
                 prev = it
                 continue
 
-            if it["x"] != body_x and is_code_line(it, body_x):
+            if is_all_code_font(it) or (it["x"] != body_x and not is_italic_prose(it)
+                                         and is_code_line(it, body_x)):
                 flush_para(); flush_bullets()
                 state["code"].append(it)
                 prev = it

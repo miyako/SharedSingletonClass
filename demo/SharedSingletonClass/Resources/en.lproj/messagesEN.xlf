@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+	<file datatype="plaintext" original="messagesEN.xlf" source-language="en" target-language="en">
+		<body>
+			<trans-unit id="Welcome_Intro" resname="Welcome_Intro">
+				<source>Welcome to the demo application! The following global variables were all initialized On Startup from the /Resources/info.txt file:</source>
+				<target>Welcome to the demo application! The following global variables were all initialized On Startup from the /Resources/info.txt file:</target>
+			</trans-unit>
+			<trans-unit id="Welcome_Examples" resname="Welcome_Examples">
+				<source>Check out other examples for handling scalar (Method: _create_vals), object (Method: _build_car), and collection (Method: _pick_fruits) data.</source>
+				<target>Check out other examples for handling scalar (Method: _create_vals), object (Method: _build_car), and collection (Method: _pick_fruits) data.</target>
+			</trans-unit>
+			<trans-unit id="AlertTypeMismatch" resname="AlertTypeMismatch">
+				<source>The type of the new value does not match the existing value's type for global: {name}</source>
+				<target>The type of the new value does not match the existing value's type for global: {name}</target>
+			</trans-unit>
+			<trans-unit id="AlertOddParameters" resname="AlertOddParameters">
+				<source>Odd amount of parameters detected when assigning global values.</source>
+				<target>Odd amount of parameters detected when assigning global values.</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

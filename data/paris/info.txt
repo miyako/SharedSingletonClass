@@ -1,0 +1,5 @@
+{
+  "city":"Paris",
+  "dept":37,
+  "main": true
+}
