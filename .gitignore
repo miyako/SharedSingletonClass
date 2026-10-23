@@ -8,3 +8,4 @@ demo/*/Data/
 demo/*/Logs/
 demo/*/userPreferences.*/
 demo/*/Project/DerivedData/
+demo/*/Project/Sources/dependencies.json
