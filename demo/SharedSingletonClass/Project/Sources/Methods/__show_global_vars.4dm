@@ -1,9 +1,16 @@
 //%attributes = {}
 var $globals:=cs:C1710.GlobalVars.me
-var $msg:="Welcome to the demo application! The following global variables were all initialized On Startup from the /Resources/info.txt file:\n\n"
+var $msg:=Localized string("Welcome_Intro")+"\n\n"
 SHOW ON DISK:C922(Get 4D folder:C485(Current resources folder:K5:16)+"info.txt")
-$msg+="CITY = "+$globals.city+"\n"
+// show the city name in the UI language
+var $city : Text
+If (Get database localization(Current localization)="ja")
+	$city:=$globals.cityJA
+Else 
+	$city:=$globals.city
+End if 
+$msg+="CITY = "+$city+"\n"
 $msg+="DEPT = "+String:C10($globals.dept)+"\n"
 $msg+="MAIN = "+String:C10($globals.main)+"\n\n"
-$msg+="Check out other examples for handling scalar (Method: _create_vals), object (Method: _build_car), and collection (Method: _pick_fruits) data."
+$msg+=Localized string("Welcome_Examples")
 ALERT:C41($msg)

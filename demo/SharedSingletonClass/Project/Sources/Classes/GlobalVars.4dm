@@ -16,7 +16,7 @@ shared Function assign($name : Text; $value : Variant;  ... )
 			If (Value type:C1509(This:C1470[$name])=Value type:C1509($value))
 				This:C1470[$name]:=$value
 			Else 
-				ALERT:C41("The type of the new value does not match the existing value's type for global: "+$name)
+				ALERT:C41(Replace string(Localized string("AlertTypeMismatch"); "{name}"; $name))
 			End if 
 		End if 
 	End if 
@@ -33,12 +33,12 @@ shared Function assign($name : Text; $value : Variant;  ... )
 					If (Value type:C1509(This:C1470[${$i}])=Value type:C1509(${$i+1}))
 						This:C1470[${$i}]:=${$i+1}
 					Else 
-						ALERT:C41("The type of the new value does not match the existing value's type for global: "+${$i})
+						ALERT:C41(Replace string(Localized string("AlertTypeMismatch"); "{name}"; ${$i}))
 					End if 
 				End if 
 			End for 
 		Else 
-			ALERT:C41("Odd amount of parameters detected when assigning global values.")
+			ALERT:C41(Localized string("AlertOddParameters"))
 		End if 
 	End if 
 	
