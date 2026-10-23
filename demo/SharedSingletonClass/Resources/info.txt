@@ -1,5 +1,6 @@
 {
-  "city":"Paris",
-  "dept":37,
+  "city":"Tokyo",
+  "cityJA":"東京",
+  "dept":13,
   "main": true
 }

@@ -75,4 +75,5 @@ Full-width `（）` and `：` in prose. First occurrence of a technical term: �
 | Nhat Do | Nhat Do | author name, kept in Latin script |
 | 4D Inc. | 4D Inc. | |
 | GlobalVars, MySharedClass, … | (unchanged) | class/method/property names stay in code form |
-| Fiat Panda, apple/orange/cherry | (unchanged) | demo data; localisation decided in Phase 4 |
+| Paris (info.txt city) | Tokyo / 東京 | demo data: `city` / `cityJA`; dept 37 → 13 (Tokyo prefecture code); original in data/paris/ |
+| Fiat Panda, apple/orange/cherry | (unchanged) | demo data, kept |
